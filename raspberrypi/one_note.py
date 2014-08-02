@@ -1,34 +1,34 @@
 import pygame
 import serial
+import re
 import time
+from glob import glob
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
+# ser = serial.Serial('/dev/tty.usbmodemfa1341', 9600)
 
 pygame.mixer.pre_init(channels=6, buffer=1024)
 pygame.mixer.init()
 
-# 1 2 3   5 6    8
-# g a b c d e f# g
-# g a b   d e    g
-# c d e f g a b  c
-# 8 6 5 3 2 1
-letters = ["d", "e", "f", "g", "a", "b"]
-letters = letters[::-1]
-piano_notes = [pygame.mixer.Sound("piano-notes/"+letter+".wav") for letter in letters]
+piano_notes = {}
+
+for note in glob("../piano-notes/*.wav")
+	note_name = re.search("([a-z0-9])\.wav$", note).group(0)
+	piano_notes[note_name] = pygame.mixer.Sound(note)
+
 
 skip_until = 0
-
-time.sleep(3)
 
 while True:
     line = ""
     line = ser.readline()
-    note = line[0]
-    if(note == '-'):
-        print "Nope"
-	continue
+	note = re.sub("\s+","", line)
+    if(note not in piano_notes):
+        print "Didn't recognize", note
+		continue
     if(skip_until > time.time()):
         print "Waiting for" , skip_until , "is now" , time.time()
-	continue
-    pygame.mixer.Sound("piano-stairs/piano-notes/"+note+".wav").play()
+		continue
+	print "Playing", note
+    piano_notes[note].play()
     skip_until = time.time() + 2
