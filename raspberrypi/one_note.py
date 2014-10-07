@@ -21,11 +21,11 @@ for note in glob("../piano-notes/*.wav"):
 while True:
     line = ""
     line = ser.readline()
-    note = re.sub("\s+","", line)
+    note = re.sub("\s+","", line.lower())
     if(note not in piano_notes):
 #        print "Didn't recognize ##" + note + "##"
         continue
     if(time.time() >= skip_until[note]):
         print "Playing", note
         piano_notes[note].play()
-    skip_until[note] = time.time() + 1
+    skip_until[note] = time.time() + 0.5
