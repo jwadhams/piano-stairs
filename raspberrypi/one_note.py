@@ -23,7 +23,7 @@ while True:
     line = ser.readline()
     note = re.sub("\s+","", line)
     if(note not in piano_notes):
-        print "Didn't recognize ##" + note + "##"
+#        print "Didn't recognize ##" + note + "##"
         continue
     if(time.time() >= skip_until[note]):
         print "Playing", note
