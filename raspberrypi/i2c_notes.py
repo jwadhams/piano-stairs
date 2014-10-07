@@ -21,10 +21,10 @@ for note in glob("../piano-notes/*.wav"):
 
 while True:
     line = ""
-    bus.write_byte(address, 0)
+    #bus.write_byte(address, 0)
     distance = bus.read_byte(address)
     print "Distance: " , distance 
-    time.sleep(1)
+    time.sleep(0.5)
 
 
     ##note = re.sub("\s+","", line)
