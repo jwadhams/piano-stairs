@@ -1,11 +1,12 @@
 import pygame
-import serial
+import smbus
 import re
 import time
 from glob import glob
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
-# ser = serial.Serial('/dev/tty.usbmodemfa1341', 9600)
+bus = smbus.SMBus(0)
+address = 0x08;
+
 
 pygame.mixer.pre_init(channels=6, buffer=1024)
 pygame.mixer.init()
@@ -20,12 +21,16 @@ for note in glob("../piano-notes/*.wav"):
 
 while True:
     line = ""
-    line = ser.readline()
-    note = re.sub("\s+","", line)
-    if(note not in piano_notes):
-        print "Didn't recognize ##" + note + "##"
-        continue
-    if(time.time() >= skip_until[note]):
-        print "Playing", note
-        piano_notes[note].play()
-    skip_until[note] = time.time() + 1
+    distance = bus.read_byte_data(address, 1)
+    print "Distance: " + distance 
+    time.sleep(1)
+
+
+    ##note = re.sub("\s+","", line)
+    ##if(note not in piano_notes):
+        ##print "Didn't recognize ##" + note + "##"
+        ##continue
+    ##if(time.time() >= skip_until[note]):
+        ##print "Playing", note
+        ##piano_notes[note].play()
+    ##skip_until[note] = time.time() + 1
