@@ -25,11 +25,16 @@ while True:
     time.sleep(0.01)
     for address in sensors:
         note = sensors[address]
-        distance = bus.read_byte(address)
+        try:
+            distance = bus.read_byte(address)
+        except IOError:
+            print "Trouble reading from sensor ", address
+            continue
 
         if(distance == 0):
             print "Rest ", note
             continue
+
         if(time.time() >= skip_until[note]):
             print "Playing ", note
             piano_notes[note].play()
