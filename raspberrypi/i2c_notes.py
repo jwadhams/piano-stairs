@@ -19,19 +19,20 @@ for note in glob("../piano-notes/*.wav"):
     piano_notes[note_name] = pygame.mixer.Sound(note)
     skip_until[note_name] = time.time()
 
+
+note = "c"
+
+
 while True:
-    line = ""
-    #bus.write_byte(address, 0)
+    #time.sleep(0.5)
+
     distance = bus.read_byte(address)
     print "Distance: " , distance 
-    time.sleep(0.5)
 
-
-    ##note = re.sub("\s+","", line)
-    ##if(note not in piano_notes):
-        ##print "Didn't recognize ##" + note + "##"
-        ##continue
-    ##if(time.time() >= skip_until[note]):
-        ##print "Playing", note
-        ##piano_notes[note].play()
-    ##skip_until[note] = time.time() + 1
+    if(distance == 0):
+        #print "No obstruction"
+        continue
+    if(time.time() >= skip_until[note]):
+        print "Playing", note
+        piano_notes[note].play()
+    skip_until[note] = time.time() + 0.5
