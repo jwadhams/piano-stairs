@@ -4,7 +4,7 @@ import re
 import time
 from glob import glob
 
-bus = smbus.SMBus(0)
+bus = smbus.SMBus(1)
 address = 0x08;
 
 
@@ -21,8 +21,9 @@ for note in glob("../piano-notes/*.wav"):
 
 while True:
     line = ""
-    distance = bus.read_byte_data(address, 1)
-    print "Distance: " + distance 
+    bus.write_byte(address, 0)
+    distance = bus.read_byte(address)
+    print "Distance: " , distance 
     time.sleep(1)
 
 
