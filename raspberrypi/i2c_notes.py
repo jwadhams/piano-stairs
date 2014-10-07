@@ -12,7 +12,7 @@ pygame.mixer.init()
 piano_notes = {}
 skip_until = {}
 
-sensors = {0x08 : 'c', 0x09 : 'd'}
+sensors = {0x08 : 'a', 0x09 : 'd'}
 
 for note in glob("../piano-notes/*.wav"):
     note_name = re.search("([a-z0-9]+)\.wav$", note).group(1)
@@ -22,9 +22,9 @@ for note in glob("../piano-notes/*.wav"):
 
 
 while True:
-    #time.sleep(0.5)
-	for address in sensors:
-	    note = sensors[address]
+    time.sleep(0.01)
+    for address in sensors:
+        note = sensors[address]
         distance = bus.read_byte(address)
 
         if(distance == 0):
